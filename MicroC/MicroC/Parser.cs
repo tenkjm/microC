@@ -4,8 +4,61 @@ using System.Linq;
 
 namespace MicroC
 {
-    public struct Parser
+    public class Parser
     {
+
+        public List<string> delimiters;
+
+
+        public Parser()
+        {
+            delimiters = new List<string>()
+            {
+                "+",
+                "-" ,
+                "*" ,
+                "/" ,
+                "{",
+                "}",
+                "=",
+                ">",
+                "<",
+                ";"
+
+            };
+        }
+
+        /// <summary>
+        /// Gets the next token.
+        /// </summary>
+        /// <returns>The next token.</returns>
+        /// <param name="text">Text.</param>
+        /// <param name="fromIndex">From index.</param>
+        public string getNextToken(string text,  ref int fromIndex)
+        {
+
+            var currentSymbol = text[fromIndex];
+            while (!char.IsSymbol(currentSymbol))
+            {
+                fromIndex++;
+            }
+            if(delimiters.Contains(currentSymbol.ToString()))
+            {
+                return currentSymbol.ToString();
+            }
+
+            int startIndex = fromIndex;
+
+            while (char.IsSymbol(currentSymbol)&& !delimiters.Contains(currentSymbol.ToString()))
+            {
+                fromIndex++;
+            }
+
+            return text.Substring(startIndex, fromIndex - startIndex);
+        }
+
+
+
         public TokenType? getNextSymbols(string text, int currentPos, List<string> symbols)
         {
             int start_symbol = currentPos++;

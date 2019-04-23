@@ -9,11 +9,19 @@ namespace MicroC
         {
 
 
-            var programText = File.ReadAllText("main.c");
+            var programText = File.ReadAllText("prog.txt");
 
 
+            int fromIndex = 0;
 
+            var parser = new Parser();
 
+            do
+            {
+                var token = parser.getNextToken(programText, ref fromIndex);
+                Console.WriteLine(token);
+            }
+            while (fromIndex < programText.Length);
 
 
             Console.WriteLine("Hello World!");
