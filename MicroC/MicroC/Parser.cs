@@ -23,7 +23,8 @@ namespace MicroC
                 "=",
                 ">",
                 "<",
-                ";"
+                ";",
+                
 
             };
         }
@@ -38,108 +39,117 @@ namespace MicroC
         {
 
             var currentSymbol = text[fromIndex];
-            while (!char.IsSymbol(currentSymbol))
+            while (char.IsWhiteSpace(currentSymbol))
             {
                 fromIndex++;
+                currentSymbol = text[fromIndex];
             }
             if(delimiters.Contains(currentSymbol.ToString()))
             {
+                fromIndex++;
                 return currentSymbol.ToString();
             }
 
             int startIndex = fromIndex;
 
-            while (char.IsSymbol(currentSymbol)&& !delimiters.Contains(currentSymbol.ToString()))
+            while ((!char.IsWhiteSpace(currentSymbol)))
             {
                 fromIndex++;
+
+                currentSymbol = text[fromIndex];
+                if( delimiters.Contains(currentSymbol.ToString()))
+                {
+                    fromIndex -= 1;
+                    return text.Substring(startIndex, (fromIndex++) - startIndex + 1);
+                    break;
+                 
+                }
             }
 
-            return text.Substring(startIndex, fromIndex - startIndex);
+            
+            return text.Substring(startIndex, (fromIndex ++)- startIndex);
         }
 
 
 
-        public TokenType? getNextSymbols(string text, int currentPos, List<string> symbols)
+        public TokenType? getSymbolType(string text, List<string> symbols)
         {
-            int start_symbol = currentPos++;
-            char currentSymbol = text[currentPos];
 
-            while (!char.IsSymbol(currentSymbol++))
+            int k;
+
+            if (int.TryParse(text, out k))
             {
-
-            }
-
-
-            if (char.IsDigit(currentSymbol))
-            {
-                while (char.IsDigit(currentSymbol++))
+                
 
                     return TokenType.Number;
             }
 
-            if (currentSymbol == '+')
+            if (text == "+")
             {
                 return TokenType.Plus;
             }
 
-            if (currentSymbol == '-')
+            if (text == "-")
             {
                 return TokenType.Minus;
             }
 
-            if (currentSymbol == '*')
+            if (text == "*")
             {
                 return TokenType.Multiply;
             }
 
-            if (currentSymbol == '/')
+            if (text == "/")
             {
                 return TokenType.Divide;
             }
 
-            if (currentSymbol == 'i'
-            && text[currentPos + 1] == 'f')
-            {
+            if (text == "if")
+            { 
                 return TokenType.If;
             }
 
-            if (currentSymbol == '{')
+            if (text == "while")
+            {
+                return TokenType.While;
+            }
+
+            if (text == "{")
+            {
+                return TokenType.BlockBegin;
+            }
+
+            if (text == "}")
             {
                 return TokenType.BlockEnd;
             }
 
-            if (currentSymbol == '}')
+            if (text == "=")
             {
-                return TokenType.BlockEnd;
+                return TokenType.Equal;
             }
 
-            if (currentSymbol == '=')
-            {
-                return TokenType.BlockEnd;
-            }
-
-            if (text.IndexOf("print", currentPos) == currentPos)
+            if (text=="print")
             {
                 return TokenType.Print;
             }
 
-            if (currentSymbol == '>')
+            if (text == ">")
             {
                 return TokenType.Grater;
             }
 
-            if (currentSymbol == '<')
+            if (text == "<")
             {
-                return TokenType.Divide;
+                return TokenType.Less;
+            }
+            if (text == ";")
+            {
+                return TokenType.Semicolon;
             }
 
-            if (currentSymbol == '='
-            && text[currentPos + 1] == 'f')
-            {
-                return TokenType.If;
-            }
 
-            if(symbols.Any( s=>text.IndexOf(s, currentPos) == currentPos))
+            if (symbols.Any( s=>s.Equals(text)))
                 {
                     return TokenType.TableSymbol;
                 }
@@ -149,25 +159,7 @@ namespace MicroC
         }
 
 
-        public string getSymbol(string text, ref int  index, ref int  value)
-        {
-            int start_symbol = index++;
-            int endSymbol = -1;
-            char currentSymbol = text[index];
-            while(char.IsLetter(currentSymbol))
-            {
-                index++;
-            }
-           return (text.Substring(start_symbol + index - start_symbol));
-
-        }
-
-
-        public void ReadAllSymbols()
-        {
-
-
-        }
+       
 
 
     }
@@ -187,7 +179,9 @@ namespace MicroC
         Print, //Печать в консооль
         Grater,
         Less,
-        EqualtityCompare
+        EqualtityCompare,
+        Semicolon,
+        While
     }
 
 }

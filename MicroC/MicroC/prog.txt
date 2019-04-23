@@ -1,11 +1,28 @@
-﻿{
+﻿var a, k;
+
+{
+    k=7;
     a=1+k;
     
-    if(a>0)
-    [
+	while k<9
+	{
+		print k;
+		k=k+1;
+	}
+
+    if a>3
+    {
     
-        print 1;
+		if k>8
+		{
+			print 999;
+		}
     
-    ]
+    }
+	print k;
+	if k<8
+	{
+		print 777;
+	}
 
 }
