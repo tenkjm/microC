@@ -14,9 +14,7 @@ namespace MicroC
         int _progIndex = 0;
 
         public Interpreter(string text)
-        {
-           
-
+        {      
             _parser = new Parser();
             _text = text;
             symbolsTable = GetSymbolTable(text, ref _progIndex);
@@ -64,9 +62,7 @@ namespace MicroC
                 var symbol_type = _parser.getSymbolType(token, symbolList);
 
                 while ( symbol_type != TokenType.BlockEnd)
-                {
-
-                    
+                {             
                     switch (symbol_type)
                     {
                         case TokenType.TableSymbol:
@@ -91,11 +87,7 @@ namespace MicroC
                     token = _parser.getNextToken(text, ref startIndex);
                     symbol_type =  _parser.getSymbolType(token, symbolList);
                 }
-
-
             }
-
-
         }
 
         void EvaluateIf(string text, ref int startIndex)
@@ -109,9 +101,7 @@ namespace MicroC
             else
             {
                 int openCount = 0;
-                int closeCount = 0;
-              
-               
+                int closeCount = 0;           
                 do
                 {
                    var token = _parser.getNextToken(text, ref startIndex);
@@ -151,7 +141,6 @@ namespace MicroC
                 int openCount = 0;
                 int closeCount = 0;
 
-
                 do
                 {
                     var token = _parser.getNextToken(text, ref startIndex);
@@ -190,7 +179,6 @@ namespace MicroC
         int getMultiplyOperand(string text, ref int startIndex)
         {
         
-
             int a, b;
 
             a = getOperandValue(text, ref startIndex);
@@ -277,10 +265,7 @@ namespace MicroC
                         break;
 
                 }
-
             }
-
-
             return 0;
         }
 
@@ -318,12 +303,9 @@ namespace MicroC
                     break;
                 }
                
-
             } while (true);
 
             Console.Out.Write("\n");
         }
-
     }
-
 }
