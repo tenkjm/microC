@@ -15,7 +15,6 @@ namespace MicroC
 
             List<string> tokens = new List<string>();
 
-
             int fromIndex = 0;
 
             var parser = new Parser();
@@ -24,9 +23,6 @@ namespace MicroC
             {
                 var token = parser.getNextToken(programText, ref fromIndex);
                 tokens.Add(token);
-
-               
-
                 Console.WriteLine(token + "   " + parser.getSymbolType(token, new List<string>()).ToString());
             }
             while (fromIndex < programText.Length);
